@@ -37,7 +37,9 @@ public class ProcessExecuter {
             	logWriter.write("\n<DONE>\n");
             else{
             	logWriter.write("\n<UNDONE>\n");
-            }			
+            }		
+            logWriter.flush();
+            logWriter.close();
 			
 		} catch (UnsupportedEncodingException e) {
 			// TODO Auto-generated catch block
