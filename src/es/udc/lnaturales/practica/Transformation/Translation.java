@@ -9,7 +9,7 @@ import java.io.UnsupportedEncodingException;
 public class Translation {
 
 	private static final String FILE_FORMAT = "ISO8859-1";
-	private static final String EXECUTE_PATH = "c:\\FreeLing\\bin\\analyzer.exe -f c:\\FreeLing\\share\\config\\es.cfg <c:\\naturales.txt";
+	private static final String EXECUTE_PATH = "cmd.exe /C c:\\FreeLing\\bin\\analyzer.exe -f c:\\FreeLing\\share\\config\\es.cfg <c:\\naturales.txt";
 	private static final String LOGFILE_PATH = "c:\\logFreeLing.txt";
 	/**
 	 * @param args
@@ -46,9 +46,10 @@ public class Translation {
 			e.printStackTrace();
 		}
 		ProcessExecuter execute = new ProcessExecuter();
-		System.out.println(EXECUTE_PATH);
 		execute.execute(EXECUTE_PATH.split(" "), LOGFILE_PATH);
 		/*********************************************************************/
+		
+		
 		
 		
 	}
