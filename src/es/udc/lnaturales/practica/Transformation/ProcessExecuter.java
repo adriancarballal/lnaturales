@@ -30,8 +30,12 @@ public class ProcessExecuter {
             
             StreamGobbler outputGobbler = new 
                 StreamGobbler(proc.getInputStream(), logWriter);
+            
+            StreamGobbler errorGobbler = new 
+            StreamGobbler(proc.getErrorStream(), logWriter);
                 
             outputGobbler.start();
+            errorGobbler.start();
                                     
             if (proc.waitFor()==0)
             	logWriter.write("\n<DONE>\n");
