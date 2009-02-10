@@ -1,37 +1,59 @@
 package es.udc.lnaturales.practica.Transformation;
 
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.io.OutputStreamWriter;
+import java.io.UnsupportedEncodingException;
 
 import es.udc.lnaturales.practica.Transformation.util.NoCommandAvailableException;
-import es.udc.lnaturales.practica.Transformation.util.ProcessErrorException;
+import es.udc.lnaturales.practica.Transformation.util.StreamGobbler;
 
 public class ProcessExecuter {
-
-	public static void execute(String[] cmd, OutputStreamWriter logWriter) 
-			throws ProcessErrorException, NoCommandAvailableException{
-		
-		if(cmd==null) throw new NoCommandAvailableException();
-        try{            
-            Runtime rt = Runtime.getRuntime();
+	
+	private static final String FILE_FORMAT = "ISO8859-1";
+	
+	/**
+	 * 
+	 * @param cmd Comando a realizar en formato String[]
+	 * @param logFileName String con la ruta al fichero de log
+	 */
+	public static void execute(String[] cmd, String logFileName) {
+		OutputStreamWriter logWriter;
+		try {
+			logWriter = new OutputStreamWriter(new FileOutputStream(logFileName), FILE_FORMAT);
+			
+			if(cmd==null) throw new NoCommandAvailableException();
+			
+			Runtime rt = Runtime.getRuntime();
             java.lang.Process proc = rt.exec(cmd);
             
-            StreamGobbler errorGobbler = new 
-                StreamGobbler(proc.getErrorStream(), "ERROR", logWriter);            
             StreamGobbler outputGobbler = new 
-                StreamGobbler(proc.getInputStream(), "OUTPUT", logWriter);
+                StreamGobbler(proc.getInputStream(), logWriter);
                 
-            errorGobbler.start();
             outputGobbler.start();
                                     
             if (proc.waitFor()==0)
-            	logWriter.write("\nDONE> Build succesfull.\n");
+            	logWriter.write("\n<DONE>\n");
             else{
-            	logWriter.write("\nPROBLEM> Unsuccesfull.\n");
-            	throw new ProcessErrorException("Build Unsuccesfull.");
-            }
-        } 
-        catch (Throwable t){
-        	t.printStackTrace();
-        	throw new ProcessErrorException("Error during StreamGlobber.");
-        }
+            	logWriter.write("\n<UNDONE>\n");
+            }			
+			
+		} catch (UnsupportedEncodingException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (NoCommandAvailableException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
     }
+}
