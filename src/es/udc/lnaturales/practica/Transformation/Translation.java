@@ -15,50 +15,43 @@ public class Translation {
 	private static final String FILE_FORMAT = "ISO8859-1";
 	private static final String EXECUTE_PATH = "cmd.exe /C c:\\FreeLing\\bin\\analyzer.exe -f c:\\FreeLing\\share\\config\\es.cfg <c:\\naturales.txt";
 	private static final String LOGFILE_PATH = "c:\\logFreeLing.txt";
-	/**
-	 * @param args
-	 */
-	@SuppressWarnings("static-access")
-	public static void main(String[] args) {
-		
-		//String a[] = {"mesa","Burgos","cosa"};
-		List<String> a = new ArrayList();
-		a.add("mesa");
-		a.add("Burgos");
-		a.add("cosa");
-		/********************************************************************/
+
+	
+	// Crea un fichero a partir de la lista de strings que se le pasa y usa dicho fichero
+	// para ejecutar el analizador de FreeLing creando un fichero de log con los resultados del analisis
+	private void executeAnalizer(List<String> list) {
 		try {
 			OutputStreamWriter fichero = new OutputStreamWriter(new FileOutputStream("c:\\naturales.txt"), FILE_FORMAT);
 			
-			for (int i=0;i<a.size();i++) 
+			for (int i=0;i<list.size();i++) 
 				try {
-					fichero.write(a.get(i)+"\n");
-					System.out.println(i+"." + a.get(i));
+					fichero.write(list.get(i)+"\n");
+					System.out.println(i+"." + list.get(i));
 				} catch (IOException e) {
-					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
 			try {
 				fichero.flush();
 				fichero.close();
 			} catch (IOException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 			
 		} catch (UnsupportedEncodingException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (FileNotFoundException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		ProcessExecuter execute = new ProcessExecuter();
 		execute.execute(EXECUTE_PATH.split(" "), LOGFILE_PATH);
-		/*********************************************************************/
-		
-        String resultado[] = new String[1000];
-        int k=0;
+	} // fin executeAnalizer()
+	
+	// Codifica las palabras contenidas en la lista de strings en codigos procedentes
+	// del fichero de log generado por FreeLing
+	public List<String> codeTranslation(List<String> list) {
+		this.executeAnalizer(list);
+		String result[] = new String[1000];
+		int k=0;
 		try {
 			FileReader fr;
 			fr = new FileReader(LOGFILE_PATH);
@@ -69,30 +62,42 @@ public class Translation {
 					   if (sCadena.isEmpty()) {
 						   break;
 					   }
-					   String codigo[] = sCadena.split(" ");
-					   resultado[k]=codigo[2].substring(0, 4);
-					   System.out.println(resultado[k]+"->"+k);
+					   String code[] = sCadena.split(" ");
+					   result[k]=code[2].substring(0, 4);
+					   //System.out.println(result[k]+"->"+k);
 					   k++;
 					}
 			} catch (IOException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		} catch (FileNotFoundException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		/******************************************************************/
 		
-		List<String> lista = new ArrayList();
+		// se crea la lista de codigos...
+		List<String> listCode = new ArrayList();
 		
 		for (int j=0; j<k;j++) {
-		    lista.add(resultado[j]);
-		    System.out.println("Lista"+j+" "+lista.get(j));
+		    listCode.add(result[j]);
+		    //System.out.println("Lista"+j+" "+listCode.get(j));
 		}
-			
-		
-
+		return listCode;
 	}
 
+//	@SuppressWarnings("static-access")
+//	public static void main(String[] args) {
+//		
+//		//String a[] = {"mesa","Burgos","cosa"};
+//		List<String> fuente = new ArrayList();
+//		List<String> codigo = new ArrayList();
+//		fuente.add("mesa de barco");
+//		fuente.add("Burgos es bonita");
+//		fuente.add("cosa buena");
+//		
+//		Translation t = new Translation();
+//		
+//		codigo = t.codeTranslation(fuente);
+//		for (int i=0;i<8;i++)
+//		 System.out.println(codigo.get(i).toString());
+//	}
 }
