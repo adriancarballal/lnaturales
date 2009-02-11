@@ -19,18 +19,17 @@ public class Translation {
 	private static final String LOGFILE_PATH = "c:\\logFreeLing.txt";
 
 	
-	// Crea un fichero a partir de la lista de strings que se le pasa y usa dicho fichero
+	// Crea un fichero a partir de un string que se le pasa y usa dicho fichero
 	// para ejecutar el analizador de FreeLing creando un fichero de log con los resultados del analisis
-	private void executeAnalizer(List<String> list) {
+	private void executeAnalizer(String phrase) {
 		try {
 			OutputStreamWriter fichero = new OutputStreamWriter(new FileOutputStream("c:\\naturales.txt"), FILE_FORMAT);
-			
-			for (int i=0;i<list.size();i++) 
-				try {
-					fichero.write(list.get(i)+"\n");
-					//System.out.println(i+"." + list.get(i));
-				} catch (IOException e) {
-					e.printStackTrace();
+			 
+			try {
+				fichero.write(phrase+"\n");
+				//System.out.println(i+"." + list.get(i));
+			} catch (IOException e) {
+				e.printStackTrace();
 				}
 			try {
 				fichero.flush();
@@ -48,12 +47,14 @@ public class Translation {
 		execute.execute(EXECUTE_PATH.split(" "), LOGFILE_PATH);
 	} // fin executeAnalizer()
 	
-	// Codifica las palabras contenidas en la lista de strings en codigos procedentes
-	// del fichero de log generado por FreeLing
-	public List<Dictionary> codeTranslation(List<String> list) {
-		this.executeAnalizer(list);
+	// Codifica las palabras contenidas en el string, en codigos procedentes
+	// del fichero de log generado por FreeLing rellenando wordList con las palabras
+	// y codeList con los codigos correspondientes
+	public void codeTranslation(String sentence, List<String> wordList, List<Dictionary> codeList) {
+		wordList.clear();
+		codeList.clear();
+		this.executeAnalizer(sentence);
 		// se crea la lista de codigos...
-		List<Dictionary> listCode = new ArrayList();
 		try {
 			FileReader fr;
 			fr = new FileReader(LOGFILE_PATH);
@@ -65,14 +66,15 @@ public class Translation {
 						   break;
 					   }
 					   String code[] = sCadena.split(" ");
+					   wordList.add(code[0]);
 					   if (code[2].charAt(0)=='N')
-					     listCode.add(Dictionary.NOMBRE);
+					     codeList.add(Dictionary.NOMBRE);
 					   else if (code[2].charAt(0)=='Z')
-						 listCode.add(Dictionary.NUMERAL);
+						 codeList.add(Dictionary.NUMERAL);
 					   else if (code[2].charAt(0)=='W')
-						 listCode.add(Dictionary.FECHA);
+						 codeList.add(Dictionary.FECHA);
 					   else
-						 listCode.add(Dictionary.DESCONOCIDO);
+						 codeList.add(Dictionary.DESCONOCIDO);
 					  
 					}
 			} catch (IOException e) {
@@ -81,9 +83,6 @@ public class Translation {
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
 		}
-		
-
-		return listCode;
 	}
 
 //	@SuppressWarnings("static-access")
@@ -92,15 +91,11 @@ public class Translation {
 //		//String a[] = {"mesa","Burgos","cosa"};
 //		List<String> fuente = new ArrayList();
 //		List<Dictionary> codigo = new ArrayList();
-//		fuente.add("mesa de barco");
-//		fuente.add("Barcelona es bonita, París también");
-//		fuente.add("cosa buena");
-//		
+//		String frase="Barcelona es una ciudad muy \"bonita\" y capital de Cataluña";
 //		Translation t = new Translation();
-//		
-//		codigo = t.codeTranslation(fuente);
-//		for (int i=0;i<11;i++)
-//		 System.out.println(codigo.get(i).toString());
+//		t.codeTranslation(frase,fuente,codigo);
+//		for (int i=0;i<12;i++)
+//		 System.out.println(fuente.get(i).toString()+" "+codigo.get(i).toString());
 //	}
 
 }
