@@ -10,6 +10,8 @@ import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.List;
 
+import es.udc.lnaturales.practica.util.Dictionary;
+
 public class Translation {
 
 	private static final String FILE_FORMAT = "ISO8859-1";
@@ -48,10 +50,10 @@ public class Translation {
 	
 	// Codifica las palabras contenidas en la lista de strings en codigos procedentes
 	// del fichero de log generado por FreeLing
-	public List<String> codeTranslation(List<String> list) {
+	public List<Dictionary> codeTranslation(List<String> list) {
 		this.executeAnalizer(list);
-		String result[] = new String[1000];
-		int k=0;
+		// se crea la lista de codigos...
+		List<Dictionary> listCode = new ArrayList();
 		try {
 			FileReader fr;
 			fr = new FileReader(LOGFILE_PATH);
@@ -63,9 +65,15 @@ public class Translation {
 						   break;
 					   }
 					   String code[] = sCadena.split(" ");
-					   result[k]=code[2];
-					   //System.out.println(result[k]+"->"+k);
-					   k++;
+					   if (code[2].charAt(0)=='N')
+					     listCode.add(Dictionary.NOMBRE);
+					   else if (code[2].charAt(0)=='Z')
+						 listCode.add(Dictionary.NUMERAL);
+					   else if (code[2].charAt(0)=='W')
+						 listCode.add(Dictionary.FECHA);
+					   else
+						 listCode.add(Dictionary.DESCONOCIDO);
+					  
 					}
 			} catch (IOException e) {
 				e.printStackTrace();
@@ -74,13 +82,7 @@ public class Translation {
 			e.printStackTrace();
 		}
 		
-		// se crea la lista de codigos...
-		List<String> listCode = new ArrayList();
-		
-		for (int j=0; j<k;j++) {
-		    listCode.add(result[j]);
-		    //System.out.println("Lista"+j+" "+listCode.get(j));
-		}
+
 		return listCode;
 	}
 
@@ -89,7 +91,7 @@ public class Translation {
 //		
 //		//String a[] = {"mesa","Burgos","cosa"};
 //		List<String> fuente = new ArrayList();
-//		List<String> codigo = new ArrayList();
+//		List<Dictionary> codigo = new ArrayList();
 //		fuente.add("mesa de barco");
 //		fuente.add("Barcelona es bonita, París también");
 //		fuente.add("cosa buena");
@@ -97,7 +99,7 @@ public class Translation {
 //		Translation t = new Translation();
 //		
 //		codigo = t.codeTranslation(fuente);
-//		for (int i=0;i<8;i++)
+//		for (int i=0;i<11;i++)
 //		 System.out.println(codigo.get(i).toString());
 //	}
 
