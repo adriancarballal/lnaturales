@@ -1,6 +1,8 @@
 package es.udc.lnaturales.practica.Search;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.apache.lucene.analysis.standard.StandardAnalyzer;
 import org.apache.lucene.document.Document;
@@ -27,24 +29,30 @@ public class Search {
 		//this.queryString = "habitantes AND Rusia";
 	}
 	
-	public String[] execute(){
-		
+	public String[] execute(){		
 		try {
+
+			List <String> lista = new ArrayList <String>();
 			IndexSearcher is = new IndexSearcher(this.index_path);
 			QueryParser qp = new QueryParser("text", 
 					new StandardAnalyzer());
 			qp.setDefaultOperator(QueryParser.AND_OPERATOR);
 			Query query = qp.parse(queryString);
+			
 			Hits hits = is.search(query, Sort.RELEVANCE);
 			for (int i=0; i< hits.length(); i++) {
 				Document doc = hits.doc(i);
-				System.out.println(doc.get("id"));
-				System.out.println(doc.get("text"));
-				String[] s = doc.get("text").split("\\.");
-				System.out.println(s.length);
-				System.out.println();
+				String s = new String(doc.get("text"));
+
+				String[] phrases = s.split("[.]");
+				for(int j=0;j<phrases.length; j++){
+					if(phrases[j].contains("capital") && phrases[j].contains("Croacia")){
+						lista.add(phrases[j]);
+						System.out.println(phrases[j].trim());
+					}
+				}
 			}
-			System.out.println("TOTAL RESULTADOS: " + hits.length());
+			System.out.println("RESULTS: " + lista.size());
 		} catch (ParseException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -62,7 +70,7 @@ public class Search {
 		
 		Search s = new Search(null);
 		s.execute();
-		
+	
 	}
 
 }
