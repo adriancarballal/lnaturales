@@ -84,20 +84,20 @@ public class Translation {
 		return listCode;
 	}
 
-//	@SuppressWarnings("static-access")
-//	public static void main(String[] args) {
-//		
-//		//String a[] = {"mesa","Burgos","cosa"};
-//		List<String> fuente = new ArrayList();
-//		List<String> codigo = new ArrayList();
-//		fuente.add("mesa de barco");
-//		fuente.add("Burgos es bonita");
-//		fuente.add("cosa buena");
-//		
-//		Translation t = new Translation();
-//		
-//		codigo = t.codeTranslation(fuente);
-//		for (int i=0;i<8;i++)
-//		 System.out.println(codigo.get(i).toString());
-//	}
+	@SuppressWarnings("static-access")
+	public static void main(String[] args) {
+		
+		//String a[] = {"mesa","Burgos","cosa"};
+		List<String> fuente = new ArrayList();
+		List<String> codigo = new ArrayList();
+		fuente.add("mesa de barco");
+		fuente.add("Burgos es bonita");
+		fuente.add("cosa buena");
+		
+		Translation t = new Translation();
+		
+		codigo = t.codeTranslation(fuente);
+		for (int i=0;i<8;i++)
+		 System.out.println(codigo.get(i).toString());
+	}
 }
