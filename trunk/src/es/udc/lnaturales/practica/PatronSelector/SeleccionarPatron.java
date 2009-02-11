@@ -4,7 +4,7 @@ import java.util.*;
 
 public class SeleccionarPatron
 {
-	public enum Tipos_Sintacticos {Numeral, Sustantivo, Frase, SustLugar, SustPropio}
+	public enum Tipos_Sintacticos {Numeral, Sustantivo, Tiempo, Frase, SustLugar, SustPropio}
 	
 	public static HashMap crearTabla(){
 		// Creamos la tabla hash con las diferentes preguntas
@@ -15,6 +15,7 @@ public class SeleccionarPatron
 		preguntas.put("¿cuáles", Tipos_Sintacticos.Sustantivo);
 		preguntas.put("¿qué", Tipos_Sintacticos.Sustantivo);
 		preguntas.put("¿cómo", Tipos_Sintacticos.Frase);
+		preguntas.put("¿cuándo", Tipos_Sintacticos.Tiempo);
 		preguntas.put("¿cuántos", Tipos_Sintacticos.Numeral);
 		preguntas.put("¿cuántas", Tipos_Sintacticos.Numeral);
 		preguntas.put("¿dónde", Tipos_Sintacticos.SustLugar);
