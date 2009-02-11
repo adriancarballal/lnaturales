@@ -26,7 +26,7 @@ public class Translation {
 			for (int i=0;i<list.size();i++) 
 				try {
 					fichero.write(list.get(i)+"\n");
-					System.out.println(i+"." + list.get(i));
+					//System.out.println(i+"." + list.get(i));
 				} catch (IOException e) {
 					e.printStackTrace();
 				}
@@ -63,7 +63,7 @@ public class Translation {
 						   break;
 					   }
 					   String code[] = sCadena.split(" ");
-					   result[k]=code[2].substring(0, 4);
+					   result[k]=code[2];
 					   //System.out.println(result[k]+"->"+k);
 					   k++;
 					}
