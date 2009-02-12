@@ -7,7 +7,6 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
 import java.io.UnsupportedEncodingException;
-import java.util.ArrayList;
 import java.util.List;
 
 import es.udc.lnaturales.practica.util.Dictionary;
@@ -21,6 +20,7 @@ public class Translation {
 	
 	// Crea un fichero a partir de un string que se le pasa y usa dicho fichero
 	// para ejecutar el analizador de FreeLing creando un fichero de log con los resultados del analisis
+	@SuppressWarnings("static-access")
 	private void executeAnalizer(String phrase) {
 		try {
 			OutputStreamWriter fichero = new OutputStreamWriter(new FileOutputStream("c:\\naturales.txt"), FILE_FORMAT);
@@ -44,6 +44,7 @@ public class Translation {
 			e.printStackTrace();
 		}
 		ProcessExecuter execute = new ProcessExecuter();
+		
 		execute.execute(EXECUTE_PATH.split(" "), LOGFILE_PATH);
 	} // fin executeAnalizer()
 	
