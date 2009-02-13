@@ -1,13 +1,10 @@
 package es.udc.lnaturales.practica.Search;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.lucene.analysis.standard.StandardAnalyzer;
 import org.apache.lucene.document.Document;
-import org.apache.lucene.index.CorruptIndexException;
-import org.apache.lucene.queryParser.ParseException;
 import org.apache.lucene.queryParser.QueryParser;
 import org.apache.lucene.search.Hits;
 import org.apache.lucene.search.Query;
@@ -20,86 +17,56 @@ import es.udc.lnaturales.practica.util.Appearances;
 import es.udc.lnaturales.practica.util.Dictionary;
 public class Search {
 	
-	private String index_path = DataSource.index_path;
-	private String queryString;
+	private static String index_path = DataSource.index_path;
 	
-	public Search(String[] keys){
-		this.queryString = "capital AND croacia";
-		//this.queryString = "kuwait AND 1990";
-		//this.queryString = "habitantes AND Rusia";
-	}
-	
-	public List<String> execute(){
+	public static List<String> search(List<String> claves){
+		
+		String queryString = new String();
+		for (String clave : claves)	queryString+= clave.replaceAll("_", " AND ") + " AND ";
+		queryString=queryString.trim().substring(0, queryString.length()-5);
 		List <String> lista = new ArrayList <String>();
-		try {
-			IndexSearcher is = new IndexSearcher(this.index_path);
+		
+		try{
+			IndexSearcher is = new IndexSearcher(index_path);
 			QueryParser qp = new QueryParser("text", 
-					new StandardAnalyzer());
+				new StandardAnalyzer());
 			qp.setDefaultOperator(QueryParser.AND_OPERATOR);
 			Query query = qp.parse(queryString);
 			
 			Hits hits = is.search(query, Sort.RELEVANCE);
 			for (int i=0; i< hits.length(); i++) {
 				Document doc = hits.doc(i);
-				String s = new String(doc.get("text"));
+				String[] phrases = new String(doc.get("text")).split("[.]");
 
-				String[] phrases = s.split("[.]");
 				for(int j=0;j<phrases.length; j++){
-					if(phrases[j].contains("capital") && phrases[j].contains("Croacia")){
+					if(containsKeys(phrases[j], claves))
 						lista.add(phrases[j].trim());
-					}
 				}
 			}
-			System.out.println("DOCUMENTOS RELACIONADOS: " + lista.size());
-		} catch (ParseException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (CorruptIndexException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			return lista;
 		}
-		return lista;
+		catch (Exception e) {
+			return null;
+		}
 	}
 	
-	public static List<String> mock(){
-		Search s = new Search(null);
-		return s.execute();
+	private static boolean containsKeys(String phrase, List<String> keys){
+		boolean flag = true;
+		for (String key : keys) flag=flag&&phrase.contains(key.replaceAll("_", " "));
+		return flag;
 	}
 	
-	public static void main(String[] args) {
-
-		long tiempoInicio = System.currentTimeMillis();
-		System.out.println("INICIANDO...");
-		
-		List<String> results = mock();
+	public static Appearances calcularRespuesta(Dictionary tipo, List<String> phrases, List<String> claves){
 		Appearances apariciones = new Appearances();
 		String phrase;
-
-		List<String> claves = new ArrayList<String>();
-		claves.add("capital");
-		claves.add("Croacia");
-
-		for (int i = 0; i < results.size(); i++) {
-			
-			phrase = results.get(i);
-			Dictionary tipo = Dictionary.NOMBRE;
-			
+		for (int i = 0; i < phrases.size(); i++) {
+			phrase = phrases.get(i);
 			buscarResultadosParciales(claves, phrase, tipo, apariciones);
-
 		}
-		long totalTiempo = System.currentTimeMillis() - tiempoInicio;
-		System.out.println("El tiempo de demora es :" + totalTiempo/1000 + " seg");
-		System.out.println("El tiempo de demora es :" + totalTiempo/60000 + " min");
-		System.out.println();
-		System.out.println("TABLA Apariciones: ");
-		System.out.println(apariciones.toString());
-		
+		return apariciones;
+
 	}
-	
-	
+
 	private static void buscarResultadosParciales(List<String> claves, String phrase, 
 			Dictionary tipo, Appearances apariciones){
 		
