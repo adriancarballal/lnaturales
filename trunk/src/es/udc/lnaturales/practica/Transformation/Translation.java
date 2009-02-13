@@ -86,17 +86,19 @@ public class Translation {
 		}
 	}
 
-//	@SuppressWarnings("static-access")
-//	public static void main(String[] args) {
-//		
-//		//String a[] = {"mesa","Burgos","cosa"};
-//		List<String> fuente = new ArrayList();
-//		List<Dictionary> codigo = new ArrayList();
-//		String frase="Barcelona es una ciudad muy \"bonita\" y capital de Catalu√±a";
-//		Translation t = new Translation();
-//		t.codeTranslation(frase,fuente,codigo);
-//		for (int i=0;i<12;i++)
-//		 System.out.println(fuente.get(i).toString()+" "+codigo.get(i).toString());
-//	}
+	/*@SuppressWarnings("static-access")
+	public static void main(String[] args) {
+		
+		//String a[] = {"mesa","Burgos","cosa"};
+		List<String> fuente = new ArrayList();
+		List<Dictionary> codigo = new ArrayList();
+		String frase="es la causa m·s frecuente de los accidentes de coche";
+		int j = frase.split(" ").length;
+		Translation t = new Translation();
+		t.codeTranslation(frase,fuente,codigo);
+		for (int i=0;i<j;i++)
+		 if(codigo.get(i).equals(Dictionary.NOMBRE))
+			 System.out.println(fuente.get(i).toString()+" "+codigo.get(i).toString());
+	}*/
 
 }
