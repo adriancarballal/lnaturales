@@ -24,6 +24,7 @@ public class Search {
 		String queryString = new String();
 		for (String clave : claves)	queryString+= clave.replaceAll("_", " AND ") + " AND ";
 		queryString=queryString.trim().substring(0, queryString.length()-5);
+		//System.out.println("QUERY: " + queryString);
 		List <String> lista = new ArrayList <String>();
 		
 		try{
@@ -31,6 +32,7 @@ public class Search {
 			QueryParser qp = new QueryParser("text", 
 				new StandardAnalyzer());
 			qp.setDefaultOperator(QueryParser.AND_OPERATOR);
+			qp.setUseOldRangeQuery(true);
 			Query query = qp.parse(queryString);
 			
 			Hits hits = is.search(query, Sort.RELEVANCE);
@@ -43,10 +45,11 @@ public class Search {
 						lista.add(phrases[j].trim());
 				}
 			}
+			hits.doc(0).get("id");
 			return lista;
 		}
 		catch (Exception e) {
-			return null;
+			return lista;
 		}
 	}
 	
@@ -84,5 +87,15 @@ public class Search {
 		}
 	}
 	
+	public static void main(String[] args) {
+		List<String> l = new ArrayList<String>();
+		
+		l.add("compañía");
+		l.add("Suiza");
+		System.out.println("ENCONTRADOS: " +search(l).size());
+		for (String string : search(l)) {
+			System.out.println(string);
+		}
+	}
 
 }
