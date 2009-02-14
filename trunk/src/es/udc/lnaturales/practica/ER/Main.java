@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+import es.udc.lnaturales.practica.PatronSelector.SeleccionarPatron;
 import es.udc.lnaturales.practica.Search.Search;
 import es.udc.lnaturales.practica.Transformation.Translation;
 import es.udc.lnaturales.practica.util.Appearances;
@@ -13,11 +14,17 @@ import es.udc.lnaturales.practica.util.Dictionary;
 
 public class Main {
 
-	private static String questionFile_PATH = "C://questions.log";
+	private static String questionFile_PATH = "C://questions2.log";
 	private static FileReader fr;
 	private static HashMap<Integer, String> questions = new HashMap<Integer, String>();
 	
-	private static Dictionary buscado = Dictionary.NOMBRE;
+	static List<String> wordList = new ArrayList<String>(); 
+	static List<Dictionary> codeList = new ArrayList<Dictionary>();
+	static Translation t = new Translation();
+	
+	private static Dictionary buscado = Dictionary.DESCONOCIDO;
+	
+	private static int maxHits = 100;
 	
 	static{
 		try {
@@ -34,28 +41,45 @@ public class Main {
 	}
 	
 	public static void main(String[] args) {
-		List<String> wordList = new ArrayList<String>(); 
-		List<Dictionary> codeList = new ArrayList<Dictionary>();
-		Translation t = new Translation();
+		
 		for (String string : questions.values()){
-			System.out.print("¿" + string + "? ");
-			long tiempoInicio = System.currentTimeMillis();
-			t.codeTranslation(string, wordList, codeList);
-			selectBuscados(wordList, codeList);
-			Search.search(wordList);
-			System.out.println(" +> DOCS: " + wordList.size());
-			Appearances respuesta = 
-				Search.calcularRespuesta(buscado, Search.search(wordList), wordList);
-			System.out.println(respuesta.toString());
-			long totalTiempo = System.currentTimeMillis() - tiempoInicio;
-			System.out.println("El tiempo de repuesta es :" + totalTiempo/60000 + 
-					" min (" + totalTiempo/1000 + "seg)");
+			buscado = SeleccionarPatron.devolverPatron(string);
+			answerQuestion(string);
 		}
+	}
+	
+	private static void answerQuestion(String string){
+		
+		System.out.print("¿" + string + "? ");
+		if(buscado.equals(Dictionary.DESCONOCIDO)){
+			System.out.println("PATRON DE RESPUESTA NO ENCONTRADO...");
+			return;
+		}
+		long tiempoInicio = System.currentTimeMillis();
+		t.codeTranslation(string, wordList, codeList);
+		
+		selectBuscados(wordList, codeList);
+		
+		List<String> hits = Search.search(wordList);
+		if(hits.size()==0){
+			System.out.println("SIN RESULTADOS...");
+			return;
+		}
+		if(hits.size()>maxHits){
+			hits = hits.subList(0, maxHits);
+		}
+		//System.out.println("FRASES ENCONTRADAS: " + hits.size());
+		Appearances respuesta = 
+			Search.calcularRespuesta(buscado, hits, wordList);
+		//System.out.println(respuesta.toString());
+		long totalTiempo = System.currentTimeMillis() - tiempoInicio;
+		System.out.println("[" + totalTiempo/60000 + " min (" + totalTiempo/1000 + "seg)]");
+		System.out.println(respuesta.toString());
 	}
 	
 	private static void selectBuscados(List<String> wordList, List<Dictionary> codeList){
 		for (int i=codeList.size()-1;i>=0; i--) {
-			if(!codeList.get(i).equals(buscado)){
+			if(!codeList.get(i).equals(Dictionary.NOMBRE)){
 				wordList.remove(i);
 				codeList.remove(i);
 			}
