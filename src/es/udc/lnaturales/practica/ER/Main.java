@@ -14,7 +14,7 @@ import es.udc.lnaturales.practica.util.Dictionary;
 
 public class Main {
 
-	private static String questionFile_PATH = "C://questions2.log";
+	private static String questionFile_PATH = "d://questions2.log";
 	private static FileReader fr;
 	private static HashMap<Integer, String> questions = new HashMap<Integer, String>();
 	

@@ -22,7 +22,10 @@ public class Search {
 	public static List<String> search(List<String> claves){
 		
 		String queryString = new String();
-		for (String clave : claves)	queryString+= clave.replaceAll("_", " AND ") + " AND ";
+		for (String clave : claves){
+			clave = transformarContraccion(clave);
+			queryString+= clave.replaceAll("_", " AND ") + " AND ";
+		}
 		queryString=queryString.trim().substring(0, queryString.length()-5);
 		//System.out.println("QUERY: " + queryString);
 		List <String> lista = new ArrayList <String>();
@@ -68,6 +71,12 @@ public class Search {
 		}
 		return apariciones;
 
+	}
+	
+	private static String transformarContraccion(String cadena){
+		cadena=cadena.replaceAll("de_el", "del");
+		cadena=cadena.replaceAll("a_el", "al");
+		return cadena;
 	}
 
 	private static void buscarResultadosParciales(List<String> claves, String phrase, 
