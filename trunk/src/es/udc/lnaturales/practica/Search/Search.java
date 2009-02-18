@@ -24,10 +24,13 @@ public class Search {
 		String queryString = new String();
 		String clave;
 		queryString = claves.get(0);
+		//System.out.println("Estas son las claves: "+queryString);
 		for (int i=1; i<claves.size();i++){
 			clave = claves.get(i);
 			clave = transformarContraccion(clave);
-			queryString+=" AND "+clave.replaceAll("_", " AND ");
+			claves.set(i, clave);
+			//System.out.println(" + "+claves.get(i));
+			queryString+=" AND "+clave.replaceAll("_"," AND ");
 		}
 		queryString=queryString.trim();
 		//System.out.println("QUERY: " + queryString);
@@ -77,8 +80,8 @@ public class Search {
 	}
 	
 	private static String transformarContraccion(String cadena){
-		cadena=cadena.replaceAll("de_el", "del");
-		cadena=cadena.replaceAll("a_el", "al");
+		cadena=cadena.replaceAll("_de_el_", " del ");
+		cadena=cadena.replaceAll("_a_el_", " al ");
 		return cadena;
 	}
 
