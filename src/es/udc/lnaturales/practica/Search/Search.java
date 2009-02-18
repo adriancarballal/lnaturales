@@ -22,11 +22,14 @@ public class Search {
 	public static List<String> search(List<String> claves){
 		
 		String queryString = new String();
-		for (String clave : claves){
+		String clave;
+		queryString = claves.get(0);
+		for (int i=1; i<claves.size();i++){
+			clave = claves.get(i);
 			clave = transformarContraccion(clave);
-			queryString+= clave.replaceAll("_", " AND ") + " AND ";
+			queryString+=" AND "+clave.replaceAll("_", " AND ");
 		}
-		queryString=queryString.trim().substring(0, queryString.length()-5);
+		queryString=queryString.trim();
 		//System.out.println("QUERY: " + queryString);
 		List <String> lista = new ArrayList <String>();
 		
