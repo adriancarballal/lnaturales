@@ -29,7 +29,7 @@ public class LuceneIndex {
 			Document doc;
 			for(int i=0;i<info.size();i++){
 				doc = new Document();
-				doc.add(new Field("id", info.get(i).getId(), Field.Store.YES, Field.Index.NO));
+				doc.add(new Field("id", info.get(i).getId(), Field.Store.YES, Field.Index.TOKENIZED));
 				doc.add(new Field("text", info.get(i).getText(), Field.Store.YES, Field.Index.TOKENIZED));;
 				writer.addDocument(doc);
 			}

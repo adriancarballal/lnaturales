@@ -14,12 +14,13 @@ import es.udc.lnaturales.practica.util.Dictionary;
 
 public class Main {
 
-	private static String questionFile_PATH = "d://questions2.log";
+	private static String questionFile_PATH = "c://total.log";
 	private static FileReader fr;
 	private static HashMap<Integer, String> questions = new HashMap<Integer, String>();
 	
 	static List<String> wordList = new ArrayList<String>(); 
 	static List<Dictionary> codeList = new ArrayList<Dictionary>();
+	static List<Dictionary> especificList = new ArrayList<Dictionary>();
 	static Translation t = new Translation();
 	
 	private static Dictionary buscado = Dictionary.DESCONOCIDO;
@@ -56,11 +57,11 @@ public class Main {
 			return;
 		}
 		long tiempoInicio = System.currentTimeMillis();
-		t.codeTranslation(string, wordList, codeList);
+		t.codeTranslation(string, wordList, codeList, especificList);
 		
 		selectBuscados(wordList, codeList);
-		
 		List<String> hits = Search.search(wordList);
+
 		if(hits.size()==0){
 			System.out.println("SIN RESULTADOS...");
 			return;
@@ -79,7 +80,7 @@ public class Main {
 	
 	private static void selectBuscados(List<String> wordList, List<Dictionary> codeList){
 		for (int i=codeList.size()-1;i>=0; i--) {
-			if(!codeList.get(i).equals(Dictionary.NOMBRE)){
+			if(!(codeList.get(i).equals(Dictionary.NOMBRE))){
 				wordList.remove(i);
 				codeList.remove(i);
 			}
