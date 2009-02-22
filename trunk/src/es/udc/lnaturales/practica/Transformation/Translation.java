@@ -51,7 +51,8 @@ public class Translation {
 	// Codifica las palabras contenidas en el string, en codigos procedentes
 	// del fichero de log generado por FreeLing rellenando wordList con las palabras
 	// y codeList con los codigos correspondientes
-	public void codeTranslation(String sentence, List<String> wordList, List<Dictionary> codeList) {
+	public void codeTranslation(String sentence, List<String> wordList, 
+			List<Dictionary> codeList, List<Dictionary> specific) {
 		wordList.clear();
 		codeList.clear();
 		this.executeAnalizer(sentence);
@@ -68,14 +69,29 @@ public class Translation {
 					   }
 					   String code[] = sCadena.split(" ");
 					   wordList.add(code[0]);
-					   if (code[2].charAt(0)=='N')
+					   if (code[2].charAt(0)=='N'){
 					     codeList.add(Dictionary.NOMBRE);
-					   else if (code[2].charAt(0)=='Z')
+					     if (code[2].charAt(1)=='P'){
+					    	 specific.add(Dictionary.NOMBRE_PROPIO);
+					     }
+					     else specific.add(Dictionary.NOMBRE_COMUN);
+					   }
+					   else if (code[2].charAt(0)=='Z'){
 						 codeList.add(Dictionary.NUMERAL);
-					   else if (code[2].charAt(0)=='W')
+						 specific.add(Dictionary.NUMERAL);
+					   }
+					   else if (code[2].charAt(0)=='W'){
 						 codeList.add(Dictionary.FECHA);
-					   else
+						 specific.add(Dictionary.FECHA);
+					   }
+					   else if (code[2].charAt(0)=='A'){
+							 codeList.add(Dictionary.ADJETIVO);
+							 specific.add(Dictionary.ADJETIVO);
+						   }
+					   else{
 						 codeList.add(Dictionary.DESCONOCIDO);
+						 specific.add(Dictionary.DESCONOCIDO);
+					   }
 					  
 					}
 			} catch (IOException e) {
