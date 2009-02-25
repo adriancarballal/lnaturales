@@ -2,17 +2,17 @@ package es.udc.lnaturales.practica.util;
 
 public class Rank {
 	
-	private Result first = new Result("null", 0);
-	private Result second = new Result("null", 0);
-	private Result third = new Result("null", 0);
+	String first="";
+	String second="";
+	String third="";
 	
-	public void setFirst(Result first) {
+	public void setFirst(String first) {
 		this.first = first;
 	}
-	public void setSecond(Result second) {
+	public void setSecond(String second) {
 		this.second = second;
 	}
-	public void setThird(Result third) {
+	public void setThird(String third) {
 		this.third = third;
 	}
 	
