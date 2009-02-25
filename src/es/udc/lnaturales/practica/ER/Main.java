@@ -6,7 +6,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-import es.udc.lnaturales.practica.PatronSelector.SeleccionarPatron;
+import es.udc.lnaturales.practica.PatternSelector.SeleccionarPatron;
 import es.udc.lnaturales.practica.Search.Search;
 import es.udc.lnaturales.practica.Transformation.Translation;
 import es.udc.lnaturales.practica.util.Appearances;
