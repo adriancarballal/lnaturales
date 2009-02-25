@@ -19,8 +19,9 @@ public class Search {
 	
 	private static String index_path = DataSource.index_path;
 	
-	public static List<String> search(List<String> claves){
+	public static List<String> search(List<String> claves, List<String> documentos){
 		
+		documentos.clear();
 		String queryString = new String();
 		String clave;
 		queryString = claves.get(0);
@@ -41,16 +42,19 @@ public class Search {
 			qp.setUseOldRangeQuery(true);
 			Query query = qp.parse(queryString);
 			Hits hits = is.search(query, Sort.RELEVANCE);
+			//System.out.println("TAMANO: "+hits.length());
 			for (int i=0; i< hits.length(); i++) {
 				Document doc = hits.doc(i);
 				String[] phrases = new String(doc.get("text")).split("[.]");
 				for(int j=0;j<phrases.length; j++){
 					if(containsKeys(phrases[j], claves)){
+						//System.out.println(phrases[j].trim() +"/"+hits.doc(i).get("id"));
 						lista.add(phrases[j].trim());
+						documentos.add(hits.doc(i).get("id"));
 					}
 				}
 			}			
-			hits.doc(0).get("id");
+			
 			return lista;
 		}
 		catch (Exception e) {
@@ -66,12 +70,14 @@ public class Search {
 		return flag;
 	}
 	
-	public static Appearances calcularRespuesta(Dictionary tipo, List<String> frases, List<String> claves){
+	public static Appearances calcularRespuesta(Dictionary tipo, List<String> frases, List<String> claves, List<String> documentos){
 		Appearances apariciones = new Appearances();
 		String frase;
+		String documento;
 		for (int i = 0; i < frases.size(); i++) {
 			frase = frases.get(i);
-			buscarResultadosParciales(claves, frase, tipo, apariciones);
+			documento = documentos.get(i);
+			buscarResultadosParciales(claves, frase, tipo, apariciones, documento);
 		}
 		return apariciones;
 
@@ -84,7 +90,7 @@ public class Search {
 	}
 
 	private static void buscarResultadosParciales(List<String> claves, String frase, 
-			Dictionary tipo, Appearances apariciones){
+			Dictionary tipo, Appearances apariciones,String documento){
 		
 		Translation t = new Translation();
 		List<String> lexemas = new ArrayList<String>();
@@ -94,7 +100,7 @@ public class Search {
 		for (int i = 0; i < lexemas.size(); i++) {
 			if(tiposEspecificos.get(i).equals(tipo)){
 					if(!claves.contains(lexemas.get(i))){
-						apariciones.addAppearance(lexemas.get(i));
+						apariciones.addAppearance(lexemas.get(i),documento);
 					}
 			}
 		}

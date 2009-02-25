@@ -12,8 +12,8 @@ import org.w3c.dom.NodeList;
 
 public class DataSource {
 
-	private static String efe_path="D:\\efe94_100\\";
-	public static String index_path="D:\\mi_indice";
+	private static String efe_path="C:\\efe94_100\\";
+	public static String index_path="C:\\mi_indice";
 	
 	private static List<File> validFiles;
 	public static int totalFiles;
