@@ -9,6 +9,7 @@ import java.io.OutputStreamWriter;
 import java.io.UnsupportedEncodingException;
 import java.util.List;
 
+import es.udc.lnaturales.practica.Transformation.util.ProcessExecuter;
 import es.udc.lnaturales.practica.util.Dictionary;
 
 public class Translation {
@@ -27,7 +28,6 @@ public class Translation {
 			 
 			try {
 				fichero.write(phrase+"\n");
-				//System.out.println(i+"." + list.get(i));
 			} catch (IOException e) {
 				e.printStackTrace();
 				}
@@ -101,20 +101,5 @@ public class Translation {
 			e.printStackTrace();
 		}
 	}
-
-	/*@SuppressWarnings("static-access")
-	public static void main(String[] args) {
-		
-		//String a[] = {"mesa","Burgos","cosa"};
-		List<String> fuente = new ArrayList();
-		List<Dictionary> codigo = new ArrayList();
-		String frase="es la causa más frecuente de los accidentes de coche";
-		int j = frase.split(" ").length;
-		Translation t = new Translation();
-		t.codeTranslation(frase,fuente,codigo);
-		for (int i=0;i<j;i++)
-		 if(codigo.get(i).equals(Dictionary.NOMBRE))
-			 System.out.println(fuente.get(i).toString()+" "+codigo.get(i).toString());
-	}*/
 
 }

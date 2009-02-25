@@ -1,4 +1,4 @@
-package es.udc.lnaturales.practica.Transformation;
+package es.udc.lnaturales.practica.Transformation.util;
 
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
@@ -6,8 +6,6 @@ import java.io.IOException;
 import java.io.OutputStreamWriter;
 import java.io.UnsupportedEncodingException;
 
-import es.udc.lnaturales.practica.Transformation.util.NoCommandAvailableException;
-import es.udc.lnaturales.practica.Transformation.util.StreamGobbler;
 
 public class ProcessExecuter {
 	
