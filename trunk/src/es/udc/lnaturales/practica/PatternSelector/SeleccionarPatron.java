@@ -26,6 +26,7 @@ public class SeleccionarPatron{
 		preguntas.put("sobre qué", Dictionary.NOMBRE_PROPIO);
 		preguntas.put("a partir de qué", Dictionary.FRASE);
 		preguntas.put("ar el nombre de", Dictionary.NOMBRE_PROPIO);
+		preguntas.put("por qué", Dictionary.FRASE);
 	}
 	
 	public static Dictionary devolverPatron(String pregunta){
