@@ -6,7 +6,7 @@ public class IndexGenerator {
 		
 		
 		DataSource data = new DataSource();
-		data.generateDataSource(null);
+		data.generateDataSource();
 		
 	}
 	

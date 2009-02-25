@@ -67,7 +67,7 @@ public class DataSource {
 	 * @param sourcePath Indica la ruta donde guardaremos el indice para nuestra
 	 * informacion obtenido mediante Lucene de Apache.
 	 */
-	public void generateDataSource(String sourcePath){
+	public void generateDataSource(){
 		
 		try {
 			IndexWriter writer = new IndexWriter(index_path, new StandardAnalyzer(), true);
