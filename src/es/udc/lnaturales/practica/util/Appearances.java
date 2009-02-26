@@ -5,7 +5,6 @@ import java.util.List;
 
 public class Appearances {
 	
-	//HashMap<String, Integer> app;
 	List<String> result;
 	List<String> docId;
 	List<Integer> numAppearances;
@@ -37,7 +36,7 @@ public class Appearances {
 			
 	}
 	
-	public String toString(){
+	public String toString(String questionId){
 		
 		Rank rank = new Rank();
 		String e="ex";
@@ -52,7 +51,7 @@ public class Appearances {
 		}
 		String primero;
 		if (pos==-1) {
-			primero = "1 plnaex031ms NIL";
+			primero = questionId+" plnaex031ms 1 NIL";
 			rank.setFirst(primero);
 		}
 		else {
@@ -61,7 +60,7 @@ public class Appearances {
 				respuesta=this.result.get(pos).replaceAll("_", " ");
 				e="st";
 			}
-			primero = "1 "+ "plna"+e+"031ms " +this.docId.get(pos) +" "+ this.numAppearances.get(pos)+ " "+ respuesta; 
+			primero = questionId+" plna"+e+"031ms 1 " +this.docId.get(pos) +" "+ this.numAppearances.get(pos)+ " "+ respuesta; 
 			rank.setFirst(primero);
 			this.result.remove(pos);
 			this.docId.remove(pos);
@@ -77,7 +76,7 @@ public class Appearances {
 		String segundo;
 		e="ex";
 		if (pos==-1) {
-			segundo = "2 plnaex031ms NIL";
+			segundo = questionId+" plnaex031ms 2 NIL";
 			rank.setSecond(segundo);
 		}
 		else {
@@ -87,7 +86,7 @@ public class Appearances {
 				e="st";
 			}
 			
-			segundo = "2 "+ "plna"+e+"031ms " + this.docId.get(pos) +" "+ this.numAppearances.get(pos)+ " "+ respuesta; 
+			segundo = questionId+" plna"+e+"031ms 2 " + this.docId.get(pos) +" "+ this.numAppearances.get(pos)+ " "+ respuesta; 
 			rank.setSecond(segundo);
 			this.result.remove(pos);
 			this.docId.remove(pos);
@@ -103,7 +102,7 @@ public class Appearances {
 		String tercero;
 		e="ex";
 		if (pos==-1) {
-			tercero = "3 plnaex031ms NIL";
+			tercero = questionId+" plnaex031ms 3 NIL";
 			rank.setThird(tercero);
 		}
 		else {
@@ -112,7 +111,7 @@ public class Appearances {
 				respuesta=this.result.get(pos).replaceAll("_", " ");
 				e="st";
 			}
-			tercero = "3 "+ "plna"+e+"031ms " + this.docId.get(pos) +" "+ this.numAppearances.get(pos)+" "+ respuesta; 
+			tercero = questionId+" plna"+e+"031ms 3 " + this.docId.get(pos) +" "+ this.numAppearances.get(pos)+" "+ respuesta; 
 			rank.setThird(tercero);
 			this.result.remove(pos);
 			this.docId.remove(pos);
