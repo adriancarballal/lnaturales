@@ -18,7 +18,7 @@ public class Main {
 	private static FileReader fr;
 	private static HashMap<Integer, String> questions = new HashMap<Integer, String>();
 	
-	static List<String> wordList = new ArrayList<String>(); 
+	static List<String> wordList = new ArrayList<String>();
 	static List<String> documentos = new ArrayList<String>();
 	static List<Dictionary> codeList = new ArrayList<Dictionary>();
 	static List<Dictionary> especificList = new ArrayList<Dictionary>();
@@ -62,8 +62,8 @@ public class Main {
 		
 		selectBuscados(wordList, codeList);
 		List<String> hits = Search.search(wordList, documentos);
-
-
+		
+		// Si vuelve a devolver 0, se descarta
 		if(hits.size()==0){
 			System.out.println("");
 			System.out.println("1 plnaex031ms NIL");
@@ -75,10 +75,8 @@ public class Main {
 			hits = hits.subList(0, maxHits);
 			documentos = documentos.subList(0, maxHits);
 		}
-		//System.out.println("FRASES ENCONTRADAS: " + hits.size());
 		Appearances respuesta = 
 			Search.calcularRespuesta(buscado, hits, wordList, documentos);
-		//System.out.println(respuesta.toString());
 		long totalTiempo = System.currentTimeMillis() - tiempoInicio;
 		System.out.println("[" + totalTiempo/60000 + " min (" + totalTiempo/1000 + "seg)]");
 		System.out.println(respuesta.toString());
