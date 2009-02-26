@@ -15,8 +15,8 @@ import es.udc.lnaturales.practica.util.Dictionary;
 public class Translation {
 
 	private static final String FILE_FORMAT = "ISO8859-1";
-	private static final String EXECUTE_PATH = "cmd.exe /C C:\\FreeLing\\bin\\analyzer.exe -f c:\\FreeLing\\share\\config\\es.cfg <c:\\naturales.txt";
-	private static final String LOGFILE_PATH = "c:\\logFreeLing.txt";
+	private static final String EXECUTE_PATH = "cmd.exe /C C:\\FreeLing\\bin\\analyzer.exe -f c:\\FreeLing\\share\\config\\es.cfg <d:\\naturales.txt";
+	private static final String LOGFILE_PATH = "d:\\logFreeLing.txt";
 
 	
 	// Crea un fichero a partir de un string que se le pasa y usa dicho fichero
@@ -24,7 +24,7 @@ public class Translation {
 	@SuppressWarnings("static-access")
 	private void executeAnalizer(String phrase) {
 		try {
-			OutputStreamWriter fichero = new OutputStreamWriter(new FileOutputStream("c:\\naturales.txt"), FILE_FORMAT);
+			OutputStreamWriter fichero = new OutputStreamWriter(new FileOutputStream("d:\\naturales.txt"), FILE_FORMAT);
 			 
 			try {
 				fichero.write(phrase+"\n");
