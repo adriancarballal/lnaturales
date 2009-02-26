@@ -41,13 +41,11 @@ public class Search {
 			qp.setUseOldRangeQuery(true);
 			Query query = qp.parse(queryString);
 			Hits hits = is.search(query, Sort.RELEVANCE);
-			//System.out.println("TAMANO: "+hits.length());
 			for (int i=0; i< hits.length(); i++) {
 				Document doc = hits.doc(i);
 				String[] phrases = new String(doc.get("text")).split("[.]");
 				for(int j=0;j<phrases.length; j++){
 					if(containsKeys(phrases[j], claves)){
-						//System.out.println(phrases[j].trim() +"/"+hits.doc(i).get("id"));
 						lista.add(phrases[j].trim());
 						documentos.add(hits.doc(i).get("id"));
 					}
