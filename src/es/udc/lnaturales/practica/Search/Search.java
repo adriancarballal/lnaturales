@@ -24,11 +24,10 @@ public class Search {
 		documentos.clear();
 		String queryString = new String();
 		String clave;
+		claves = transformarContraccion(claves,0);
 		queryString = claves.get(0);
 		for (int i=1; i<claves.size();i++){
 			clave = claves.get(i);
-			clave = transformarContraccion(clave);
-			claves.set(i, clave);
 			queryString+=" AND "+clave.replaceAll("_"," AND ");
 		}
 		queryString=queryString.trim();
@@ -83,10 +82,21 @@ public class Search {
 
 	}
 	
-	private static String transformarContraccion(String cadena){
-		cadena=cadena.replaceAll("_de_el_", " del ");
-		cadena=cadena.replaceAll("_a_el_", " al ");
-		return cadena;
+	private static List<String> transformarContraccion(List<String> claves,int k){
+		String cadena;
+		for (int i=0; i<claves.size();i++){
+			cadena = claves.get(i);
+			if (k==0){
+				cadena=cadena.replaceAll("_de_el_", " del ");
+				cadena=cadena.replaceAll("_a_el_", " al ");
+			}
+			else{
+				cadena=cadena.replaceAll(" del ", "_de_el_");
+				cadena=cadena.replaceAll(" al ", "_a_el_");
+			}
+			claves.set(i, cadena); 
+		}
+		return claves;
 	}
 
 	private static void buscarResultadosParciales(List<String> claves, String frase, 
@@ -99,7 +109,8 @@ public class Search {
 		t.codeTranslation(frase, lexemas, tipos, tiposEspecificos);
 		for (int i = 0; i < lexemas.size(); i++) {
 			if(tiposEspecificos.get(i).equals(tipo)){
-					if(!claves.contains(lexemas.get(i))){
+				claves = transformarContraccion(claves,1);	
+				if(!claves.contains(lexemas.get(i))){
 						apariciones.addAppearance(lexemas.get(i),documento);
 					}
 			}
