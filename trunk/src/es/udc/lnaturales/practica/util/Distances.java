@@ -35,15 +35,4 @@ public class Distances {
 		return (int) (Math.pow(minimum, 2.0));
 	}
 	
-	@SuppressWarnings("static-access")
-	public static void main(String[] args) {
-		String frase="La capital es Zagreb y la capital de Yugoslavia es Belgrado";
-		String wordkey="Zagreb";
-		String reference="capital";
-		
-		Distances distances = new Distances();
-		int dist = distances.distanceBetweenWords(frase, wordkey, reference);
-		
-		System.out.println("La distancia es: "+dist);
-	}
 }
