@@ -20,7 +20,6 @@ public class ProcessExecuter {
 		OutputStreamWriter logWriter;
 		try {
 			logWriter = new OutputStreamWriter(new FileOutputStream(logFileName), FILE_FORMAT);
-			//System.out.println("cmd:"+cmd[0].toString()+cmd[1].toString()+cmd[2].toString()+cmd[3].toString());
 			if(cmd==null) throw new NoCommandAvailableException();
 			
 			Runtime rt = Runtime.getRuntime();

@@ -55,12 +55,10 @@ public class Main {
 	
 	private static void answerQuestion(String string, String questionId){
 		
-		//System.out.print("¿" + string + "? ");
 		if(buscado.equals(Dictionary.DESCONOCIDO)){
 			System.out.println("PATRON DE RESPUESTA NO ENCONTRADO...");
 			return;
 		}
-		long tiempoInicio = System.currentTimeMillis();
 		t.codeTranslation(string, wordList, codeList, especificList);
 		
 		selectBuscados(wordList, codeList);
@@ -68,7 +66,6 @@ public class Main {
 		
 		// Si vuelve a devolver 0, se descarta
 		if(hits.size()==0){
-			//System.out.println("");
 			System.out.println(questionId+" plnaex031ms 1 NIL");
 			System.out.println(questionId+" plnaex031ms 2 NIL");
 			System.out.println(questionId+" plnaex031ms 3 NIL");
@@ -80,8 +77,6 @@ public class Main {
 		}
 		Appearances respuesta = 
 			Search.calcularRespuesta(buscado, hits, wordList, documentos);
-		long totalTiempo = System.currentTimeMillis() - tiempoInicio;
-		//System.out.println("[" + totalTiempo/60000 + " min (" + totalTiempo/1000 + "seg)]");
 		System.out.println(respuesta.toString(questionId));
 	}
 	
